@@ -23,7 +23,7 @@ node.addEventListener("keyup", function (event) {
 });
 
 function goFullScreen() {
-  location.href = `https://www.youtube.com/redirect?q=https://${document.location.host}`;
+  location.href = `https://www.youtube.com/redirect?q=https://kart0050.github.io/t_browser/public/`;
 }
 
 function showOverlay() {
