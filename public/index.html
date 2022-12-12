@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ABetterTheater.nz - Full Screen Apps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A Better Theater for your Tesla!" />
+    <meta
+      name="keywords"
+      content="ABetterTheater, New Zealand, A Better Theater, Theatre"
+    />
+    <meta name="theme-color" content="#262626" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:site_name"
+      content="ABetterTheater.nz - Full Screen Apps"
+    />
+    <meta property="og:title" content="ABetterTheater.nz - Full Screen Apps" />
+    <meta
+      property="og:description"
+      content="A Better Theater for your Tesla!"
+    />
+    <meta property="og:url" content="https://abettertheater.nz/" />
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <link rel="canonical" href="https://abettertheater.nz/" />
+    <link rel="stylesheet" href="styles.css?r=11" />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-ZM4FBPXRCH"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-ZM4FBPXRCH");
+    </script>
+  </head>
+  <body>
+    <p id="teslaBrowser" style="text-align: center; display: none">
+      This website is made for your Tesla browser. Open it on there to get the
+      full experience!
+    </p>
+    <div class="container" id="services">
+      <button onclick="showOverlay()" id="web">
+        <img
+          src="img/web.svg"
+          height="78px"
+          width="100%"
+          alt="World Wide Web"
+          class="logo"
+        />
+      </button>
+    </div>
+    <div id="overlay" onClick="closeDialog('overlay')">
+      <input
+        type="text"
+        id="path"
+        value="https://"
+        onClick="window.event.stopPropagation();"
+      />
+    </div>
+
+    <div class="footer">
+      <button class="editBtn" onClick="openEditModal();">Edit</button>
+      <div id="overlayfull" style="display: none; text-align: center">
+        <button class="button-basic" onClick="goFullScreen();">
+          Go fullscreen
+        </button>
+      </div>
+    </div>
+
+    <div class="shadow" id="shadow">
+      <img src="img/loading.svg" class="loading" />
+    </div>
+
+    <div id="editModal">
+      <p>
+        Select what streaming servies you would like to be hidden from your
+        dashboard
+      </p>
+      <br />
+      <div id="serviceItems"></div>
+      <br />
+      <button class="doneBtn" onClick="window.location.reload();">Done</button>
+    </div>
+
+    <div id="geoModal" onClick="closeDialog('geoModal')">
+      <h1>Oops!</h1>
+      <h3>
+        This service won't work unless you are connected to WiFi. Please connect
+        to your phone's hotspot and try again.
+      </h3>
+      <br />
+      <br />
+      <br />
+      <p>
+        <b>Why???</b><br />We have detected you are using your Tesla's LTE
+        connection. Your Tesla's data connection is actually coming from
+        Australia and this service you are trying to access is geo-locked to New
+        Zealand. Because of this even though you are physically in New Zealand,
+        the website you are trying to access thinks you are in Australia and
+        won't let you stream. To get around this you will need to connect your
+        car to WiFi and then this service will work. Try tethering to your
+        phone's hotspot.
+      </p>
+      <br />
+    </div>
+
+    <script>
+      const baseServices = [
+        { url: "https://app.plex.tv", image: "plex", name: "Plex", geo: false },
+        {
+          url: "https://www.hulu.com",
+          image: "hulu",
+          name: "Hulu",
+          geo: false,
+        },
+        {
+          url: "https://www.primevideo.com",
+          image: "prime",
+          name: "Prime Video",
+          geo: false,
+        },
+        {
+          url: "https://netflix.com",
+          image: "netflix",
+          name: "Netflix",
+          geo: false,
+        },
+        {
+          url: "https://www.disneyplus.com",
+          image: "disneyplus",
+          name: "Disney Plus",
+          geo: false,
+        },
+        {
+          url: "https://www.youtube.com",
+          image: "youtube",
+          name: "YouTube",
+          geo: false,
+        },
+        {
+          url: "https://www.twitch.tv",
+          image: "twitch",
+          name: "Twitch",
+          geo: false,
+        },
+        {
+          url: "https://www.neontv.co.nz",
+          image: "neon",
+          name: "NEON",
+          geo: false,
+        },
+        {
+          url: "https://www.tvnz.co.nz",
+          image: "tvnz",
+          name: "TV NZ",
+          geo: true,
+        },
+        {
+          url: "https://www.sparksport.co.nz",
+          image: "sparksport",
+          name: "Spark Sport",
+          geo: true,
+        },
+        {
+          url: "https://www.skygo.co.nz",
+          image: "skygo",
+          name: "Sky Go",
+          geo: true,
+        },
+        {
+          url: "https://www.skysportnow.co.nz",
+          image: "skysportnow",
+          name: "Sky Sport Now",
+          geo: true,
+        },
+        {
+          url: "https://www.threenow.co.nz",
+          image: "threenow",
+          name: "Three now",
+          geo: true,
+        },
+        {
+          url: "https://www.crunchyroll.com",
+          image: "crunchyroll",
+          name: "Crunchyroll",
+          geo: false,
+        },
+        {
+          url: "https://www.funimation.com",
+          image: "funimation",
+          name: "Funimation",
+          geo: false,
+        },
+        {
+          url: "https://music.youtube.com",
+          image: "youtubemusic",
+          name: "YouTube Music",
+          geo: false,
+        },
+        {
+          url: "https://tv.apple.com/",
+          image: "appletvplus",
+          name: "Apple TV +",
+          geo: false,
+        },
+      ];
+
+      var services = baseServices;
+      if (localStorage.getItem("hidden")) {
+        var hiddenItems = JSON.parse(localStorage.getItem("hidden"));
+        services = baseServices.filter(
+          (x) => !hiddenItems.find((h) => h === x.image)
+        );
+      }
+
+      for (const obj of services.reverse()) {
+        document
+          .getElementById("services")
+          .insertAdjacentHTML(
+            "afterbegin",
+            `<button onClick="loading('${obj["url"]}', ${obj["geo"]})"><img src="img/${obj["image"]}.svg" alt="${obj["image"]}" width="100%" height="100%" class="logo" /></button>`
+          );
+      }
+    </script>
+
+    <script type="text/javascript" src="js.js?r=11"></script>
+  </body>
+</html>
